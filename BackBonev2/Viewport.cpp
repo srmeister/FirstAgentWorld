@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Viewport.h"
 
-Viewport::Viewport(CWelt *welt)
+Viewport::Viewport(Environment *welt)
 {
 	m_Welt = welt;
 	m_SizeX = 200;

@@ -5,10 +5,11 @@
 #pragma once
 
 #include "Punkt.h"
+#include "deepnn/BackProp.H"
 
 class Agent
 {
-	friend class CWelt;
+	friend class Environment;
 private:
 	//Eigenschaften
 	double m_Energy;
@@ -21,6 +22,10 @@ private:
 	UINT m_uiID;
 	void EvaluateNet();
 	void TakeAction();
+
+	// Creating the net
+	CBackProp *bp;
+
 public:
 
 	// Konstruktor, Destruktor

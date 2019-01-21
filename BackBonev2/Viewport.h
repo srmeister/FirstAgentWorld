@@ -3,11 +3,11 @@
 
 class Viewport
 {
-	CWelt *m_Welt;
+	Environment *m_Welt;
 
 	int m_SizeX, m_SizeY;
 public:
-	Viewport(CWelt *welt);
+	Viewport(Environment *welt);
 	~Viewport();
 	void SetDrawSize(int x, int y);
 	void Darstellen(CClientDC* A);

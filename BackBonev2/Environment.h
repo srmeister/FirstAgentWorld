@@ -11,7 +11,7 @@
 #include "Agent.h"
 #include "AgentList.h"
 
-class CWelt  
+class Environment  
 {
 private:
 	double m_SizeX,
@@ -20,9 +20,9 @@ private:
 		
 
 public:
-	CWelt();
-	CWelt(double,double,double);
-	virtual ~CWelt();
+	Environment();
+	Environment(double,double,double);
+	virtual ~Environment();
 	
 	void Update();
 	

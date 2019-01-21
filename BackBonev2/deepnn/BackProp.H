@@ -21,20 +21,18 @@
 #include <cmath>
 #include <random>
 
-#include "GlobalDefines.h"
-
 using namespace std;
 
 class CBackProp{
 
 // Input Buffer
-	FPTYPE *input_buffer;
+	double *input_buffer;
 
 //	output of each neuron
-	FPTYPE **out;
+	double **out;
 
 //	delta error value for each neuron
-	FPTYPE **delta;
+	double **delta;
 
 //  dropout list
 	int **dropoutlist;
@@ -43,7 +41,7 @@ class CBackProp{
 	int dropoutmode;
 
 //	vector of weights for each neuron
-	FPTYPE ***weight;
+	double ***weight;
 
 //	no of layers in net
 //	including input layer
@@ -55,57 +53,56 @@ class CBackProp{
 
 //	storage for weight-change made
 //	in previous epoch
-	FPTYPE ***prevDwt;
+	double ***prevDwt;
 
 //	squashing functions
 #define ActivationFunction ReLU
 #define ActivationDerivativeFunction ReLUDerivative
-	inline FPTYPE Sigmoid(FPTYPE in);
-	inline void Softmax(FPTYPE * in, int size);
-	inline FPTYPE SigmoidDerivative(FPTYPE in);
-	inline FPTYPE ReLU(FPTYPE in);
-	inline FPTYPE ReLUDerivative(FPTYPE in);
+	inline double Sigmoid(double in);
+	inline void Softmax(double * in, int size);
+	inline double SigmoidDerivative(double in);
+	inline double ReLU(double in);
+	inline double ReLUDerivative(double in);
 
 //	learning rate
-	FPTYPE beta;
+	double beta;
 
 //	momentum parameter
-	FPTYPE alpha;
+	double alpha;
 
 
 
 //	initializes and allocates memory
 public:
-	CBackProp(int NumLayers,int *sz, FPTYPE b, FPTYPE a, bool dropout_enabled);
-	bool isCorrectGuess(FPTYPE *tgt);
+	CBackProp(int NumLayers,int *sz, double b, double a, bool dropout_enabled);
 	~CBackProp();
 
 //	backpropogates error for one set of input
-	bool bpgt(FPTYPE *tgt);
-	bool bpgt(FPTYPE *in, FPTYPE *tgt);
+	bool bpgt(double *tgt);
+	bool bpgt(double *in, double *tgt);
 
 //	feed forwards activations for one set of inputs
-	void ffwd(FPTYPE *in, bool dropout);
+	void ffwd(double *in, bool dropout);
 	void ffwd(bool dropout);
-	void ffwd(FPTYPE *in);
+	void ffwd(double *in);
 
 //	returns mean square error of the net
-	FPTYPE mse(FPTYPE *tgt) const;
+	double mse(double *tgt) const;
 	bool isCorrectGuess(double *tgt);
 //	returns i'th output of the net
-	FPTYPE Out(int i) const;
+	double Out(int i) const;
 	void MakeDropoutList();
 	void SaveNet(char *filename);
 	bool LoadNet(char *filename);
 	void Reset();
-	void Init(int NumLayers,int *sz, FPTYPE b, FPTYPE a, bool dropout_enabled);
+	void Init(int NumLayers,int *sz, double b, double a, bool dropout_enabled);
 	void Log(char *file, int i, int time, double err_train, double err_test);
-	void PrintSymbol(FPTYPE *in, int tgt);
+	void PrintSymbol(double *in, int tgt);
 	void PrintConfig();
 	void SetHyperParameters(double Alpha, double Beta, int BatchSize);
 private:
-	void SetInputs(FPTYPE *in);
-	FPTYPE *importArray(double *in, int size);
+	void SetInputs(double *in);
+	double *importArray(double *in, int size);
 };
 
 #endif

@@ -32,6 +32,12 @@ Agent::Agent(double dX, double dY, double dZ, double energy, UINT uiID)
 	m_PktFRichtung.SetPkt(0, 0, 0);
 	m_Energy = energy;
 	m_uiID = uiID;
+
+	// Creating the net
+	int lSz[3] = {4,4,4};
+	double beta = 0.0005, alpha = 0.2;
+
+	bp = new CBackProp(3, lSz, beta, alpha, true);
 }
 
 void Agent::Tick()

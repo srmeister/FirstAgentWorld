@@ -19,7 +19,7 @@ class CBackBoneDlg : public CDialog
 // Konstruktion
 public:
 	double m_RunTime;
-	CWelt m_Welt;
+	Environment m_Welt;
 	Viewport m_Viewport;
 	CBackBoneDlg(CWnd* pParent = NULL);	// Standard-Konstruktor
 

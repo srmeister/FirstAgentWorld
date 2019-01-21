@@ -17,7 +17,7 @@ static char THIS_FILE[]=__FILE__;
 // Konstruktion/Destruktion
 //////////////////////////////////////////////////////////////////////
 
-CWelt::CWelt()
+Environment::Environment()
 {
 	laufZeit = 0;
 
@@ -26,7 +26,7 @@ CWelt::CWelt()
 	m_SizeZ=100;
 
 }
-CWelt::CWelt(double X, double Y, double Z)
+Environment::Environment(double X, double Y, double Z)
 {
 	laufZeit = 0;
 
@@ -35,18 +35,18 @@ CWelt::CWelt(double X, double Y, double Z)
 	m_SizeZ=Z;
 }
 
-CWelt::~CWelt()
+Environment::~Environment()
 {
 
 }
 
 
-void CWelt::AddKoerper(double x, double y, double Energy)
+void Environment::AddKoerper(double x, double y, double Energy)
 {
 	agentList.AppendAgent( new Agent(x, y, 0, Energy, GetCount()));
 }
 
-Agent* CWelt::GetKoerper(int Nr)
+Agent* Environment::GetKoerper(int Nr)
 {
 	Agent *agent = agentList.ResetConductor();
 	for (int i = 0; i < Nr && agent != NULL; i++)
@@ -56,7 +56,7 @@ Agent* CWelt::GetKoerper(int Nr)
 	return agent;
 }
 
-void CWelt::Update()
+void Environment::Update()
 {
 	laufZeit++;
 
@@ -67,7 +67,7 @@ void CWelt::Update()
 	} while ((agent = agentList.GetNextAgent()) != NULL);
 }
 
-int CWelt::GetCount()
+int Environment::GetCount()
 {
 	int i=0;
 	if(agentList.ResetConductor() == NULL) return 0;
@@ -79,22 +79,22 @@ int CWelt::GetCount()
 	return i;
 }
 
-double CWelt::GetDimX()
+double Environment::GetDimX()
 {
 	return m_SizeX;
 }
 
-double CWelt::GetDimY()
+double Environment::GetDimY()
 {
 	return m_SizeY;
 }
 
-double CWelt::GetDimZ()
+double Environment::GetDimZ()
 {
 	return m_SizeZ;
 }
 
-void CWelt::SetDim(double X,double Y,double Z)
+void Environment::SetDim(double X,double Y,double Z)
 {
 	m_SizeX=X;
 	m_SizeY=Y;

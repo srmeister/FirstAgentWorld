@@ -3,13 +3,13 @@
 
 //	initializes and allocates memory on heap
 
-CBackProp::CBackProp(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_enabled)
+CBackProp::CBackProp(int NumLayers, int *sz, double b, double a, bool dropout_enabled)
 {
 
 	Init(NumLayers, sz, b, a, dropout_enabled);
 }
 
-void CBackProp::Init(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_enabled)
+void CBackProp::Init(int NumLayers, int *sz, double b, double a, bool dropout_enabled)
 {
 	dropoutmode = dropout_enabled;
 	beta = b;
@@ -19,7 +19,7 @@ void CBackProp::Init(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_en
 	lsize = new int[numl];
 	int i;
 
-	input_buffer = new FPTYPE[sz[0]];
+	input_buffer = new double[sz[0]];
 
 	// NN Layergröße auf vielfaches von 16 erweitern
 	for (i = 0; i<numl; i++)
@@ -36,19 +36,19 @@ void CBackProp::Init(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_en
 	}
 
 	//	allocate memory for output of each neuron
-	out = new FPTYPE*[numl];
+	out = new double*[numl];
 
 	for (i = 0; i<numl; i++)
 	{
-		out[i] = (FPTYPE*)_aligned_malloc(sizeof(FPTYPE)*lsize[i], 64);
+		out[i] = (double*)_aligned_malloc(sizeof(double)*lsize[i], 64);
 	}
 
 	//	allocate memory for delta
-	delta = new FPTYPE*[numl];
+	delta = new double*[numl];
 
 	for (i = 0; i<numl; i++)
 	{
-		delta[i] = (FPTYPE*)_aligned_malloc(sizeof(FPTYPE)*lsize[i], 64);
+		delta[i] = (double*)_aligned_malloc(sizeof(double)*lsize[i], 64);
 	}
 
 	//	allocate memory for dropoutlist
@@ -63,27 +63,27 @@ void CBackProp::Init(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_en
 	}
 
 	//	allocate memory for weights
-	weight = new FPTYPE**[numl];
+	weight = new double**[numl];
 
 	for (i = 1; i<numl; i++) {
-		weight[i] = new FPTYPE*[lsize[i]];
+		weight[i] = new double*[lsize[i]];
 	}
 	for (i = 1; i<numl; i++) {
 		for (int j = 0; j<lsize[i]; j++) {
-			weight[i][j] = (FPTYPE*)_aligned_malloc(sizeof(FPTYPE)*lsize[i - 1] + 1, 64); //new fptype[lsize[i-1]+1];
+			weight[i][j] = (double*)_aligned_malloc(sizeof(double)*lsize[i - 1] + 1, 64); //new double[lsize[i-1]+1];
 		}
 	}
 
 	//	allocate memory for previous weights
-	prevDwt = new FPTYPE**[numl];
+	prevDwt = new double**[numl];
 
 	for (i = 1; i<numl; i++) {
-		prevDwt[i] = new FPTYPE*[lsize[i]];
+		prevDwt[i] = new double*[lsize[i]];
 
 	}
 	for (i = 1; i<numl; i++) {
 		for (int j = 0; j<lsize[i]; j++) {
-			prevDwt[i][j] = (FPTYPE*)_aligned_malloc(sizeof(FPTYPE)*lsize[i - 1] + 1, 64);
+			prevDwt[i][j] = (double*)_aligned_malloc(sizeof(double)*lsize[i - 1] + 1, 64);
 		}
 	}
 
@@ -98,8 +98,8 @@ void CBackProp::Init(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_en
 			{
 				if (k<lsize[i - 1]) // weights init
 				{
-					float rand_nr = (FPTYPE)distribution(generator);
-					float factor = (FPTYPE)sqrt(2.0 / ((double)lsize[i - 1] * 0.5)); // ReLU init
+					float rand_nr = (double)distribution(generator);
+					float factor = (double)sqrt(2.0 / ((double)lsize[i - 1] * 0.5)); // ReLU init
 					weight[i][j][k] = rand_nr *factor;
 				}
 				else	// bias init
@@ -112,7 +112,7 @@ void CBackProp::Init(int NumLayers, int *sz, FPTYPE b, FPTYPE a, bool dropout_en
 	for (i = 1; i<numl; i++)
 		for (int j = 0; j<lsize[i]; j++)
 			for (int k = 0; k<lsize[i - 1] + 1; k++)
-				prevDwt[i][j][k] = (FPTYPE)0.0;
+				prevDwt[i][j][k] = (double)0.0;
 
 	// Note that the following variables are unused,
 	//
@@ -179,20 +179,20 @@ void CBackProp::Reset()
 }
 
 //	sigmoid function
-FPTYPE CBackProp::Sigmoid(FPTYPE in)
+double CBackProp::Sigmoid(double in)
 {
-	return (FPTYPE)(1 / (1 + exp(-in)));
+	return (double)(1 / (1 + exp(-in)));
 }
 
-inline void CBackProp::Softmax(FPTYPE *in, int size)
+inline void CBackProp::Softmax(double *in, int size)
 {
 	// determine max output sum
-	FPTYPE max = 0.0;
+	double max = 0.0;
 	for (int i = 0; i < size; i++)
 		if (in[i] > max) max = in[i];
 
 	// determine scaling factor -- sum of exp(each val - max)
-	FPTYPE scale = 0.0;
+	double scale = 0.0;
 	for (int i = 0; i < size; ++i)
 		scale += exp(in[i] - max);
 
@@ -201,31 +201,31 @@ inline void CBackProp::Softmax(FPTYPE *in, int size)
 
 }
 
-inline FPTYPE CBackProp::SigmoidDerivative(FPTYPE in)
+inline double CBackProp::SigmoidDerivative(double in)
 {
 	return (in * (1 - in));
 }
 
 // ReLU activation
-inline FPTYPE CBackProp::ReLU(FPTYPE in)
+inline double CBackProp::ReLU(double in)
 {
 	if (in < 0) return in*0.01f;
 	return in;
 }
 
-inline FPTYPE CBackProp::ReLUDerivative(FPTYPE in)
+inline double CBackProp::ReLUDerivative(double in)
 {
-	if (in < 0) return (FPTYPE)0.01;
-	else return (FPTYPE)1.0;
+	if (in < 0) return (double)0.01;
+	else return (double)1.0;
 }
 //	mean square error
-FPTYPE CBackProp::mse(FPTYPE *tgt) const
+double CBackProp::mse(double *tgt) const
 {
-	FPTYPE mse = 0;
+	double mse = 0;
 
 	for (int i = 0; i<lsize[numl - 1]; i++)
 	{
-		FPTYPE tmp = tgt[i] - out[numl - 1][i];
+		double tmp = tgt[i] - out[numl - 1][i];
 		mse += tmp*tmp;
 	}
 	return mse / 2;
@@ -234,16 +234,16 @@ FPTYPE CBackProp::mse(FPTYPE *tgt) const
 #ifdef FTYPE_NODOUBLE
 bool CBackProp::isCorrectGuess(double *tgt)
 {
-	fptype *tmptarget = importArray(tgt, lsize[numl - 1]);
+	double *tmptarget = importArray(tgt, lsize[numl - 1]);
 	bool retval = isCorrectGuess(tmptarget);
 	delete[] tmptarget;
 	return retval;
 }
 #endif
 
-bool CBackProp::isCorrectGuess(FPTYPE *tgt)
+bool CBackProp::isCorrectGuess(double *tgt)
 {
-	FPTYPE largestoutput = 0.0;
+	double largestoutput = 0.0;
 	int samelargestoutputs = 0;
 	int index_of_largestoutput = 0;
 	int target = 0;
@@ -271,17 +271,17 @@ bool CBackProp::isCorrectGuess(FPTYPE *tgt)
 }
 
 //	returns i'th output of the net
-FPTYPE CBackProp::Out(int i) const
+double CBackProp::Out(int i) const
 {
 	return out[numl - 1][i];
 }
 
-void CBackProp::ffwd(FPTYPE *in)
+void CBackProp::ffwd(double *in)
 {
 	ffwd(in, false);
 }
 
-void CBackProp::ffwd(FPTYPE *in, bool dropout)
+void CBackProp::ffwd(double *in, bool dropout)
 {
 	SetInputs(in);
 	ffwd(dropout);
@@ -291,7 +291,7 @@ void CBackProp::ffwd(FPTYPE *in, bool dropout)
 void CBackProp::ffwd(bool dropout)
 {
 	int i, lsize_hlp;
-	FPTYPE sum,
+	double sum,
 		*out_hlp,
 		*weight_hlp;
 
@@ -335,7 +335,7 @@ void CBackProp::ffwd(bool dropout)
 
 				if (i>1 && !dropout)	// for each layer above a dropout layer, halve the incoming sum if no-dropout
 				{
-					sum = sum * (FPTYPE)0.5;
+					sum = sum * (double)0.5;
 				}
 				sum += weight[i][j][lsize_hlp];		// Apply bias
 
@@ -385,13 +385,13 @@ void CBackProp::ffwd(bool dropout)
 }
 
 
-bool CBackProp::bpgt(FPTYPE * in, FPTYPE * tgt)
+bool CBackProp::bpgt(double * in, double * tgt)
 {
 	SetInputs(in);
-	FPTYPE *tmptarget = new FPTYPE[lsize[numl - 1]];
+	double *tmptarget = new double[lsize[numl - 1]];
 	for (int i = 0; i < lsize[numl - 1]; i++)
 	{
-		tmptarget[i] = (FPTYPE)tgt[i];
+		tmptarget[i] = (double)tgt[i];
 	}
 	bool retval = bpgt(tmptarget);
 	delete[] tmptarget;
@@ -399,9 +399,9 @@ bool CBackProp::bpgt(FPTYPE * in, FPTYPE * tgt)
 }
 //	backpropagate errors from output
 //	layer uptill the first hidden layer
-bool CBackProp::bpgt(FPTYPE *tgt)
+bool CBackProp::bpgt(double *tgt)
 {
-	FPTYPE sum,
+	double sum,
 		*weight_hlp,
 		*prevDwt_hlp,
 		*out_hlp,
@@ -596,7 +596,7 @@ bool CBackProp::LoadNet(char *filename)
 
 		fread_s(lsize_temp, sizeof(lsize_temp[0])* numl_tmp, sizeof(lsize_temp[0]), numl_tmp, fNet);
 
-		Init(numl_tmp, lsize_temp, (FPTYPE)beta_tmp, (FPTYPE)alpha_tmp, dropout_tmp2);
+		Init(numl_tmp, lsize_temp, (double)beta_tmp, (double)alpha_tmp, dropout_tmp2);
 
 		for (int i = 1; i<numl_tmp; i++)
 		{
@@ -606,7 +606,7 @@ bool CBackProp::LoadNet(char *filename)
 				{
 					double weighttmp;
 					fread(&weighttmp, sizeof(weighttmp), 1, fNet);
-					weight[i][j][k] = (FPTYPE)weighttmp;
+					weight[i][j][k] = (double)weighttmp;
 				}
 			}
 		}
@@ -634,7 +634,7 @@ void CBackProp::Log(char *file, int i, int time, double err_train, double err_te
 	fclose(fp);
 }
 
-void CBackProp::PrintSymbol(FPTYPE *in, int tgt)
+void CBackProp::PrintSymbol(double *in, int tgt)
 {
 	for (int i = 0; i<lsize[0]; i++)
 	{
@@ -687,24 +687,24 @@ void CBackProp::PrintConfig()
 
 void CBackProp::SetHyperParameters(double Alpha, double Beta, int BatchSize)
 {
-	alpha = (FPTYPE)Alpha;
-	beta = (FPTYPE)Beta;
+	alpha = (double)Alpha;
+	beta = (double)Beta;
 }
 
-void CBackProp::SetInputs(FPTYPE *in)
+void CBackProp::SetInputs(double *in)
 {
 	for (int i = 0; i < lsize[0]; i++)
 	{
-		input_buffer[i] = (FPTYPE)in[i];
+		input_buffer[i] = (double)in[i];
 	}
 }
 
-FPTYPE *CBackProp::importArray(double *in, int size)
+double *CBackProp::importArray(double *in, int size)
 {
-	FPTYPE *retval = new FPTYPE[size];
+	double *retval = new double[size];
 	for (int i = 0; i < size; i++)
 	{
-		retval[i] = (FPTYPE)in[i];
+		retval[i] = (double)in[i];
 	}
 	return retval;
 }
