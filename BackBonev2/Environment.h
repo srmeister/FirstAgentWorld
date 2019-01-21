@@ -8,32 +8,22 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-#include "Koerper.h"
+#include "Agent.h"
+#include "AgentList.h"
 
 class CWelt  
 {
 private:
-	double m_G,
-		m_Vmax;
-	double m_X,
-		m_Y,
-		m_Z;
-
-	bool	m_FRad,
-		m_FExp;
-	
-	CKoerper *m_pKrpRoot;
-	CKoerper *m_pKrpConductor;
-	CKoerper *m_pKrpCondTmp;
+	double m_SizeX,
+		m_SizeY,
+		m_SizeZ;
+		
 
 public:
 	CWelt();
 	CWelt(double,double,double);
 	virtual ~CWelt();
-
-	void LLReset();
-	CKoerper *LLGetNext();
-
+	
 	void Update();
 	
 	double GetDimX();
@@ -41,19 +31,10 @@ public:
 	double GetDimZ();
 	void SetDim(double,double,double);
 
-	void Kraft();
+	void AddKoerper(double x, double y, double Energy);
 
-	//Kräfte
-	void SetFRad(bool);
-	bool GetFRad();
-	void SetFExp(bool);
-	bool GetFExp();
-
-	void AddKoerper(double x, double y, double Mass, double Charge, double Spin);
-	bool AddLink(int QuellID, int ZielID);
-	bool DelLink(int QuellID, int ZielID);
-
-	CKoerper* GetKoerper(int Nr);
+	Agent* GetKoerper(int Nr);
+	AgentList agentList;
 	int GetCount();
 
 	int laufZeit;

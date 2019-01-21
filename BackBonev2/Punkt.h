@@ -7,7 +7,7 @@
 
 class CPunkt  
 {
-	friend class CKoerper;
+	friend class Agent;
 private:
 	double m_dX;
 	double m_dY;

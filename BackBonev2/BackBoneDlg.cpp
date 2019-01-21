@@ -16,17 +16,15 @@ static char THIS_FILE[] = __FILE__;
 
 CBackBoneDlg::CBackBoneDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CBackBoneDlg::IDD, pParent), 
-	m_WeltDrawer(&m_Welt)
+	m_Viewport(&m_Welt)
 {
-	m_Anzahl = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_RunTime = 0;
 }
 
 void CBackBoneDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_SPIN_NODE, m_NodeSel);
-	DDX_Text(pDX, IDC_EDIT_ANZAHL, m_Anzahl);
 }
 
 BEGIN_MESSAGE_MAP(CBackBoneDlg, CDialog)
@@ -48,10 +46,10 @@ BOOL CBackBoneDlg::OnInitDialog()
 	
 	// Welt init
 
-	m_Welt.SetDim(200,300,200);
+	m_Welt.SetDim(400,300,200);
 
-	AddNode(100, 150, 100, 1000, 1);
-	AddNode(120, 200, 1, -1, 1);
+	m_Welt.AddKoerper(100, 150, 100);
+	m_Welt.AddKoerper(120, 200, 100);
 
 	m_RunTime = 0;
 	
@@ -121,18 +119,6 @@ void CBackBoneDlg::OnTimer(UINT nIDEvent)
 	SetDlgItemText(IDC_EDIT_ZEIT,Anz);
 
 	CClientDC A(this);
-	m_WeltDrawer.Darstellen(&A);
+	m_Viewport.Darstellen(&A);
 	CDialog::OnTimer(nIDEvent);
-}
-
-void CBackBoneDlg::AddNode(double x, double y, double Mass, double Charge, double Spin)
-{
-	m_Welt.AddKoerper(x,y,Mass, Charge, Spin);	
-	m_NodeSel.SetRange(1,m_Welt.GetCount());
-	m_NodeSel.SetPos(m_Welt.GetCount());
-
-	GetDlgItem(IDC_SPIN_NODE)->EnableWindow(true);
-		
-	UpdateData(false);
-
 }

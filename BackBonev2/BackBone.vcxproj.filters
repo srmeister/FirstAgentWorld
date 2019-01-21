@@ -21,19 +21,25 @@
     <ClCompile Include="BackBoneDlg.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
-    <ClCompile Include="Koerper.cpp">
-      <Filter>Quellcodedateien</Filter>
-    </ClCompile>
     <ClCompile Include="Punkt.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
-    <ClCompile Include="Welt.cpp">
+    <ClCompile Include="AgentList.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
-    <ClCompile Include="WeltDrawer.cpp">
+    <ClCompile Include="Agent.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="deepnn\BackProp.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,9 +55,6 @@
     <ClInclude Include="BackBoneDlg.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="Koerper.h">
-      <Filter>Header-Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="Punkt.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
@@ -61,10 +64,19 @@
     <ClInclude Include="StdAfx.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="Welt.h">
+    <ClInclude Include="AgentList.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="WeltDrawer.h">
+    <ClInclude Include="Agent.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="deepnn\BackProp.H">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
   </ItemGroup>

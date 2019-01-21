@@ -1,14 +1,14 @@
 #pragma once
-#include "Welt.h"
+#include "Environment.h"
 
-class WeltDrawer
+class Viewport
 {
 	CWelt *m_Welt;
 
 	int m_SizeX, m_SizeY;
 public:
-	WeltDrawer(CWelt *welt);
-	~WeltDrawer();
+	Viewport(CWelt *welt);
+	~Viewport();
 	void SetDrawSize(int x, int y);
 	void Darstellen(CClientDC* A);
 };

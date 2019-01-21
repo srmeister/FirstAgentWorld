@@ -4,12 +4,12 @@
 #if !defined(AFX_BACKBONEDLG_H__7E00C4CD_70AF_47CF_9503_B5012D447FD1__INCLUDED_)
 #define AFX_BACKBONEDLG_H__7E00C4CD_70AF_47CF_9503_B5012D447FD1__INCLUDED_
 
-#include "Welt.h"	// Hinzugefügt von der Klassenansicht
+#include "Environment.h"	// Hinzugefügt von der Klassenansicht
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "WeltDrawer.h"
+#include "Viewport.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CBackBoneDlg Dialogfeld
@@ -20,14 +20,14 @@ class CBackBoneDlg : public CDialog
 public:
 	double m_RunTime;
 	CWelt m_Welt;
-	WeltDrawer m_WeltDrawer;
+	Viewport m_Viewport;
 	CBackBoneDlg(CWnd* pParent = NULL);	// Standard-Konstruktor
 
 // Dialogfelddaten
 	//{{AFX_DATA(CBackBoneDlg)
 	enum { IDD = IDD_BACKBONE_DIALOG };
-	CSpinButtonCtrl	m_NodeSel;
-	UINT	m_Anzahl;
+//	CSpinButtonCtrl	m_NodeSel;
+//	UINT	m_Anzahl;
 	//}}AFX_DATA
 
 	// Vom Klassenassistenten generierte Überladungen virtueller Funktionen
@@ -48,7 +48,6 @@ protected:
 	afx_msg void OnTimer(UINT nIDEvent);
 
 public:
-	void AddNode(double x, double y, double Mass, double Charge, double Spin);
 };
 
 //{{AFX_INSERT_LOCATION}}
