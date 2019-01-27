@@ -5,7 +5,7 @@
 #if !defined(AFX_PUNKT_H__A93CDE6F_5698_4598_B613_F2FC53859C49__INCLUDED_)
 #define AFX_PUNKT_H__A93CDE6F_5698_4598_B613_F2FC53859C49__INCLUDED_
 
-class CPunkt  
+class Point  
 {
 	friend class Agent;
 private:
@@ -13,10 +13,10 @@ private:
 	double m_dY;
 	double m_dZ;
 public:
-	CPunkt();
-	CPunkt(double dX, double dY, double dZ);
+	Point();
+	Point(double dX, double dY, double dZ);
 
-	double GetAbstand(const CPunkt &ZielPkt);
+	double GetAbstand(const Point &ZielPkt);
 
 	double GetDelta(double dKoord1, double dKoord2){
 		if(dKoord1 > dKoord2)
@@ -44,7 +44,7 @@ public:
 
 	void PrintPkt(HWND hWnd);
 
-	virtual ~CPunkt() {};
+	virtual ~Point() {};
 };
 
 #endif // !defined(AFX_PUNKT_H__A93CDE6F_5698_4598_B613_F2FC53859C49__INCLUDED_)

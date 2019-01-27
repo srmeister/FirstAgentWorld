@@ -24,11 +24,9 @@ void Agent::TakeAction()
 {
 }
 
-Agent::Agent(double dX, double dY, double dZ, double energy, UINT uiID)
+Agent::Agent(double X, double Y, double energy, UINT uiID)
 {
-	nextAgent  = NULL;
-
-	m_PktPos.SetPkt(dX, dY, dZ);
+	m_PktPos.SetPkt(X, Y, 0);
 	m_PktFRichtung.SetPkt(0, 0, 0);
 	m_Energy = energy;
 	m_uiID = uiID;

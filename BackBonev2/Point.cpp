@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "stdafx.h"
 #include <math.h>
-#include "Punkt.h"
+#include "Point.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -17,21 +17,21 @@ static char THIS_FILE[]=__FILE__;
 // Konstruktion/Destruktion
 //////////////////////////////////////////////////////////////////////
 
-CPunkt::CPunkt()
+Point::Point()
 {
 	m_dX = 0;
 	m_dY = 0;
 	m_dZ = 0;
 }
 
-CPunkt::CPunkt(double dX, double dY, double dZ)
+Point::Point(double dX, double dY, double dZ)
 {
 	m_dX = dX;
 	m_dY = dY;
 	m_dZ = dZ;
 }
 
-double CPunkt::GetAbstand(const CPunkt &ZielPkt)
+double Point::GetAbstand(const Point &ZielPkt)
 {
 	double DeltadX,DeltadY,DeltadZ;
 
@@ -42,14 +42,14 @@ double CPunkt::GetAbstand(const CPunkt &ZielPkt)
 	return sqrt(DeltadX * DeltadX + DeltadY * DeltadY + DeltadZ * DeltadZ);
 }
 
-double CPunkt::GetRelativLaenge()
+double Point::GetRelativLaenge()
 {
-	CPunkt StartPkt; //ein 0,0,0 Punkt
+	Point StartPkt; //ein 0,0,0 Punkt
 
 	return GetAbstand(StartPkt);
 }
 
-void CPunkt::PrintPkt(HWND hWnd)
+void Point::PrintPkt(HWND hWnd)
 {
 	CString Tmp1,Tmp2,Tmp3;
 

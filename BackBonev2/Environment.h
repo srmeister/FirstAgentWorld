@@ -8,8 +8,9 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
 #include "Agent.h"
-#include "AgentList.h"
+#include "Food.h"
 
 class Environment  
 {
@@ -17,7 +18,9 @@ private:
 	double m_SizeX,
 		m_SizeY,
 		m_SizeZ;
-		
+	
+	std::vector<Food> foodVector;
+	std::vector<Agent> agentVector;
 
 public:
 	Environment();
@@ -31,11 +34,13 @@ public:
 	double GetDimZ();
 	void SetDim(double,double,double);
 
-	void AddKoerper(double x, double y, double Energy);
+	void AddAgent(double x, double y, double Energy);
+	Agent *GetFirstAgent();
+	int GetAgentCount();
 
-	Agent* GetKoerper(int Nr);
-	AgentList agentList;
-	int GetCount();
+	void PlaceFood(int amount);
+	Food *GetFirstFood();
+	int GetFoodCount();
 
 	int laufZeit;
 };

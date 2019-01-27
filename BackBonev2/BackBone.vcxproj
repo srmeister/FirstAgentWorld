@@ -136,12 +136,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AgentList.cpp" />
     <ClCompile Include="BackBone.cpp" />
     <ClCompile Include="BackBoneDlg.cpp" />
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="deepnn\BackProp.cpp" />
-    <ClCompile Include="Punkt.cpp" />
+    <ClCompile Include="EnvObject.cpp" />
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -155,12 +156,13 @@
     <ResourceCompile Include="BackBone.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AgentList.h" />
     <ClInclude Include="BackBone.h" />
     <ClInclude Include="BackBoneDlg.h" />
     <ClInclude Include="Agent.h" />
     <ClInclude Include="deepnn\BackProp.H" />
-    <ClInclude Include="Punkt.h" />
+    <ClInclude Include="EnvObject.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="Environment.h" />

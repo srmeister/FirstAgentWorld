@@ -10,6 +10,6 @@ public:
 	Viewport(Environment *welt);
 	~Viewport();
 	void SetDrawSize(int x, int y);
-	void Darstellen(CClientDC* A);
+	void Display(CClientDC* A);
 };
 

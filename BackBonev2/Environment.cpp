@@ -3,7 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "stdafx.h"
 #include "Environment.h"
 #include <math.h>
 
@@ -25,7 +24,10 @@ Environment::Environment()
 	m_SizeY=100;
 	m_SizeZ=100;
 
+	foodVector.reserve(1024);
+	agentVector.reserve(128);
 }
+
 Environment::Environment(double X, double Y, double Z)
 {
 	laufZeit = 0;
@@ -41,42 +43,45 @@ Environment::~Environment()
 }
 
 
-void Environment::AddKoerper(double x, double y, double Energy)
+void Environment::AddAgent(double x, double y, double Energy)
 {
-	agentList.AppendAgent( new Agent(x, y, 0, Energy, GetCount()));
+	agentVector.push_back(Agent(x, y, Energy, GetAgentCount()));
 }
 
-Agent* Environment::GetKoerper(int Nr)
+Agent* Environment::GetFirstAgent()
 {
-	Agent *agent = agentList.ResetConductor();
-	for (int i = 0; i < Nr && agent != NULL; i++)
-	{
-		agent = agentList.GetNextAgent();
-	}
-	return agent;
+	if(agentVector.size()>0)
+		return &agentVector[0];
+	else
+		return NULL;
 }
 
 void Environment::Update()
 {
 	laufZeit++;
-
-	Agent *agent = agentList.ResetConductor();
-	do
+	for (size_t i = 0; i < agentVector.size(); i++)
 	{
-		agent->Tick();
-	} while ((agent = agentList.GetNextAgent()) != NULL);
+		agentVector[i].Tick();
+	}
 }
 
-int Environment::GetCount()
+int Environment::GetAgentCount()
 {
-	int i=0;
-	if(agentList.ResetConductor() == NULL) return 0;
-	else i++;
-	while (agentList.GetNextAgent() != NULL)
-	{
-		i++;
-	};
-	return i;
+
+	return agentVector.size();
+}
+
+Food * Environment::GetFirstFood()
+{
+	if(foodVector.size()>0)
+		return &foodVector[0];
+	else
+		return NULL;
+}
+
+int Environment::GetFoodCount()
+{
+	return foodVector.size();
 }
 
 double Environment::GetDimX()
@@ -99,4 +104,17 @@ void Environment::SetDim(double X,double Y,double Z)
 	m_SizeX=X;
 	m_SizeY=Y;
 	m_SizeZ=Z;
+}
+
+void Environment::PlaceFood(int amount)
+{
+	std::default_random_engine gen;
+	std::uniform_real_distribution<double> disx(0, m_SizeX);
+	std::uniform_real_distribution<double> disy(0, m_SizeY);
+
+	for (int i = 0; i < amount; i++)
+	{
+		foodVector.push_back(Food(disx(gen),disy(gen),10));
+	}
+
 }

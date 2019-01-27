@@ -6,8 +6,7 @@
 //////////////////////////////////////////////
 
 
-#ifndef backprop_h
-#define backprop_h
+#pragma once
 
 #include <assert.h>
 #include <iostream>
@@ -104,5 +103,3 @@ private:
 	void SetInputs(double *in);
 	double *importArray(double *in, int size);
 };
-
-#endif

@@ -1,11 +1,10 @@
+#include "stdafx.h"
 #include "backprop.h"
-
 
 //	initializes and allocates memory on heap
 
 CBackProp::CBackProp(int NumLayers, int *sz, double b, double a, bool dropout_enabled)
 {
-
 	Init(NumLayers, sz, b, a, dropout_enabled);
 }
 
@@ -98,8 +97,8 @@ void CBackProp::Init(int NumLayers, int *sz, double b, double a, bool dropout_en
 			{
 				if (k<lsize[i - 1]) // weights init
 				{
-					float rand_nr = (double)distribution(generator);
-					float factor = (double)sqrt(2.0 / ((double)lsize[i - 1] * 0.5)); // ReLU init
+					double rand_nr = (double)distribution(generator);
+					double factor = (double)sqrt(2.0 / ((double)lsize[i - 1] * 0.5)); // ReLU init
 					weight[i][j][k] = rand_nr *factor;
 				}
 				else	// bias init

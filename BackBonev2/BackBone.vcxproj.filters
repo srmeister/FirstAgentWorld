@@ -21,13 +21,7 @@
     <ClCompile Include="BackBoneDlg.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
-    <ClCompile Include="Punkt.cpp">
-      <Filter>Quellcodedateien</Filter>
-    </ClCompile>
     <ClCompile Include="StdAfx.cpp">
-      <Filter>Quellcodedateien</Filter>
-    </ClCompile>
-    <ClCompile Include="AgentList.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
     <ClCompile Include="Agent.cpp">
@@ -40,6 +34,15 @@
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
     <ClCompile Include="deepnn\BackProp.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Food.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Quellcodedateien</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvObject.cpp">
       <Filter>Quellcodedateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,16 +58,10 @@
     <ClInclude Include="BackBoneDlg.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="Punkt.h">
-      <Filter>Header-Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
     <ClInclude Include="StdAfx.h">
-      <Filter>Header-Dateien</Filter>
-    </ClInclude>
-    <ClInclude Include="AgentList.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
     <ClInclude Include="Agent.h">
@@ -77,6 +74,15 @@
       <Filter>Header-Dateien</Filter>
     </ClInclude>
     <ClInclude Include="deepnn\BackProp.H">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Food.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Header-Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvObject.h">
       <Filter>Header-Dateien</Filter>
     </ClInclude>
   </ItemGroup>

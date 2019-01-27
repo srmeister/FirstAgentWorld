@@ -48,8 +48,10 @@ BOOL CBackBoneDlg::OnInitDialog()
 
 	m_Welt.SetDim(400,300,200);
 
-	m_Welt.AddKoerper(100, 150, 100);
-	m_Welt.AddKoerper(120, 200, 100);
+	m_Welt.AddAgent(100, 150, 100);
+	m_Welt.AddAgent(120, 200, 100);
+
+	m_Welt.PlaceFood(20);
 
 	m_RunTime = 0;
 	
@@ -111,7 +113,7 @@ void CBackBoneDlg::OnTimer(UINT nIDEvent)
 		
 	CString Anz;
 	
-	Anz.Format("%d",m_Welt.GetCount());
+	Anz.Format("%d",m_Welt.GetAgentCount());
 	SetDlgItemText(IDC_EDIT_ANZAHL,Anz);
 	
 	
@@ -119,6 +121,6 @@ void CBackBoneDlg::OnTimer(UINT nIDEvent)
 	SetDlgItemText(IDC_EDIT_ZEIT,Anz);
 
 	CClientDC A(this);
-	m_Viewport.Darstellen(&A);
+	m_Viewport.Display(&A);
 	CDialog::OnTimer(nIDEvent);
 }

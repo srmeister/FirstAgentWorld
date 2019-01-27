@@ -4,19 +4,14 @@
 
 #pragma once
 
-#include "Punkt.h"
+#include "EnvObject.h"
 #include "deepnn/BackProp.H"
 
-class Agent
+class Agent : public EnvObject
 {
-	friend class Environment;
 private:
 	//Eigenschaften
-	double m_Energy;
 	
-	//Geschwindigkeits- und Richtungsvektoren (Betrag == V)
-	CPunkt m_PktFRichtung;
-	CPunkt m_PktPos;
 
 	//Identifikation
 	UINT m_uiID;
@@ -29,7 +24,7 @@ private:
 public:
 
 	// Konstruktor, Destruktor
-	Agent(double dX, double dY, double dZ, double energy, UINT uiID);
+	Agent(double X, double Y, double energy, UINT uiID);
 
 	inline ~Agent() {}
 	
@@ -40,9 +35,6 @@ public:
 	inline double GetEnergy() {return m_Energy;}
 	inline void SetEnergy(double energy){ m_Energy = energy; }
 
-	inline CPunkt GetPos() { return m_PktPos; }
 
 	inline UINT GetID() {return m_uiID;}
-	// Linked List stuff
-	Agent *nextAgent;
 };
